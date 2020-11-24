@@ -1,0 +1,36 @@
+# PostgreSQL. Versions 9.3 and up are supported.
+#
+# Install the pg driver:
+#   gem install pg
+# On macOS with Homebrew:
+#   gem install pg -- --with-pg-config=/usr/local/bin/pg_config
+# On macOS with MacPorts:
+#   gem install pg -- --with-pg-config=/opt/local/lib/postgresql84/bin/pg_config
+# On Windows:
+#   gem install pg
+#       Choose the win32 build.
+#       Install PostgreSQL and put its /bin directory on your path.
+#
+# Configure Using Gemfile
+# gem 'pg'
+#
+
+# This section lists defaults assumed by the `workstation` repo
+workstation: &workstation
+  host: localhost
+  password: <%= ENV.fetch('POSTGRES_SCUSER_PASSWORD') %>
+
+base: &base
+  <<: *workstation
+  adapter: postgresql
+  encoding: unicode
+  username: socialchorus
+  pool: 5
+
+development:
+  <<: *base
+  database: sponsorships
+
+test:
+  <<: *base
+  database: sponsorships_test

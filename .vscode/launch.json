@@ -1,0 +1,32 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Start Rails server",
+            "type": "Ruby",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "program": "${workspaceRoot}/bin/rails",
+            "args": [
+                "server",
+                "-p",
+                "3000"
+            ]
+        },
+        {
+            "name": "Debug Rails server",
+            "type": "Ruby",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "env": {"WEB_CONCURRENCY":"0", "RAILS_MAX_THREADS":"1"},
+            "pathToRDebugIDE": "/Users/jack/.rbenv/versions/2.5.1/lib/ruby/gems/2.5.0/gems/ruby-debug-ide-2.3.0",
+            "program": "${workspaceRoot}/bin/rails",
+            "debuggerPort": "2346",
+            "args": [
+                "server",
+                "-p",
+                "3000"
+            ]
+        }
+    ]
+  }
