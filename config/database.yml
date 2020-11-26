@@ -16,15 +16,15 @@
 #
 
 # This section lists defaults assumed by the `workstation` repo
-workstation: &workstation
+sponsorships_setup: &sponsorships_setup
   host: localhost
-  password: <%= ENV.fetch('POSTGRES_SCUSER_PASSWORD') %>
+  password: ''
 
 base: &base
-  <<: *workstation
+  <<: *sponsorships_setup
   adapter: postgresql
   encoding: unicode
-  username: socialchorus
+  username: sponsorships
   pool: 5
 
 development:
