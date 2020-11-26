@@ -10,16 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_24_053601) do
+ActiveRecord::Schema.define(version: 2020_11_26_034628) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "services", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "sponsees", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "sponsor_services", force: :cascade do |t|
+    t.bigint "sponsor_id", null: false
+    t.bigint "service_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_id"], name: "index_sponsor_services_on_service_id"
+    t.index ["sponsor_id"], name: "index_sponsor_services_on_sponsor_id"
   end
 
   create_table "sponsors", force: :cascade do |t|
@@ -38,6 +53,8 @@ ActiveRecord::Schema.define(version: 2020_11_24_053601) do
     t.index ["sponsor_id"], name: "index_sponsorships_on_sponsor_id"
   end
 
+  add_foreign_key "sponsor_services", "services"
+  add_foreign_key "sponsor_services", "sponsors"
   add_foreign_key "sponsorships", "sponsees"
   add_foreign_key "sponsorships", "sponsors"
 end

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :sponsor_services
+  resources :services
   resources :sponsees
   resources :sponsors
   root 'homepage#index'
