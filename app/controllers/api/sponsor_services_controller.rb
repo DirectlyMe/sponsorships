@@ -1,0 +1,2 @@
+class SponsorServicesController < ApplicationController
+end
