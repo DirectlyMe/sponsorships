@@ -1,5 +1,6 @@
 # Main entry point for sponsorship functionality
 class Api::SponsorshipsController < ApplicationController
+    # /api/sponsorships/sponsors
     def list_sponsors
         sponsors = Sponsor.all
         sponsorships = sponsors.map do |sponsor|
@@ -12,6 +13,7 @@ class Api::SponsorshipsController < ApplicationController
         render json: sponsorships, status: 200
     end
 
+    # /api/sponsorships/sponsees
     def list_sponsees
         sponsees = Sponsee.all
         sponsorships = sponsees.map do |sponsee|
@@ -24,12 +26,23 @@ class Api::SponsorshipsController < ApplicationController
         render json: sponsorships, status: 200
     end
 
+    # /api/sponsorships/sponsor/:id
     def sponsor
         sponsor = Sponsor.find(params[:id])
 
         render json: {
             sponsor: sponsor,
             sponsees: sponsor.sponsees
+        }, status: 200
+    end
+
+    # /api/sponsorships/sponsee/:id
+    def sponsee
+        sponsee = Sponsee.find(params[:id])
+
+        render json: {
+            sponsee: sponsee,
+            sponsors: sponsee.sponsors
         }, status: 200
     end
 
