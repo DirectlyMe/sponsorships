@@ -39,6 +39,7 @@ Now that we have rbenv and yarn, we should be able to download/build all the app
 ### Scaffold the sponsorships database:
 - create the app databases `rake db:create`
 - scaffold the new databases `rake db:migrate`
+- seed the database with test data `rake db:seed`
 
 ### Start the App:
 - From the projects root directory run `bundle exec rails server`
