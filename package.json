@@ -1,6 +1,9 @@
 {
   "name": "sponsorships",
   "private": true,
+  "scripts": {
+    "hot-reload": "bin/webpack-dev-server"
+  },
   "dependencies": {
     "@babel/preset-react": "^7.10.4",
     "@rails/actioncable": "^6.0.0",

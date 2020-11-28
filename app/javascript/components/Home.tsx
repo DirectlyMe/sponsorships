@@ -19,7 +19,6 @@ const Home = () => {
 
     return (
         <div>
-            <div>test</div>
             <form onSubmit={getSponsorships}>
                 <label htmlFor="user_id">Enter Sponsor Id</label>
                 <br />
