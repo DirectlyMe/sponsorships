@@ -1,5 +1,16 @@
 Rails.application.routes.draw do
+    get 'password/reset'
+    post 'password/reset'
+    get 'password/forgot'
+    post 'password/forgot'
+    resources :users
+
     root 'homepage#index'
+
+    scope :auth do
+        get 'login', to: 'auth#show'
+        post 'login', to: 'auth#login'
+    end
 
     namespace :api, defaults: { format: 'json' } do
         scope :sponsees do
