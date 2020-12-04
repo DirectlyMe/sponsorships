@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+    skip_before_action :authorized
+
     def index
         @users = User.all
     end
@@ -10,14 +12,14 @@ class UsersController < ApplicationController
     def show
         @user = User.find(params[:id])
     end
-    
+
     def create
         @user = User.new(user_params)
         if @user.save
             p @user.errors.count
-            redirect_to @user, alert: "User created successfully"
+            redirect_to @user, alert: 'User created successfully'
         else
-            redirect_to new_user_path, alert: "Error creating user"
+            redirect_to new_user_path, alert: 'Error creating user'
         end
     end
 

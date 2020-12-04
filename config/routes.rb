@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     scope :auth do
         get 'login', to: 'auth#show'
         post 'login', to: 'auth#login'
+        get 'logout', to: 'auth#logout'
     end
 
     namespace :api, defaults: { format: 'json' } do

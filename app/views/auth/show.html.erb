@@ -1,8 +1,15 @@
 <h1>Login!</h1>
 <%= @valid %>
+<%= flash.alert %>
 <form action="/auth/login" method="POST">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <input type="text" name="username" placeholder="username" />
     <input type="password" name="password" />
     <button type="submit">Submit</button>
 </form>
+
+<h3>Forgot your password?</h3>
+<%= link_to "Reset Password", "/password/forgot" %>
+
+<h3>Don't have a user?</h3>
+<%= link_to "Create  One", "/users/new" %>

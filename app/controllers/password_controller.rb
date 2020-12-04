@@ -1,5 +1,7 @@
 # handle all forgot and reset password requests
 class PasswordController < ApplicationController
+    skip_before_action :authorized
+
     def reset
         # check for the token in a form submission
         token ||= params['token']
