@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_26_034628) do
+ActiveRecord::Schema.define(version: 2020_11_29_010009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,15 @@ ActiveRecord::Schema.define(version: 2020_11_26_034628) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["sponsee_id"], name: "index_sponsorships_on_sponsee_id"
     t.index ["sponsor_id"], name: "index_sponsorships_on_sponsor_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "username"
+    t.string "password_digest"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "email"
+    t.string "reset"
   end
 
   add_foreign_key "sponsor_services", "services"

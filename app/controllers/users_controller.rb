@@ -1,0 +1,30 @@
+class UsersController < ApplicationController
+    # TODO: in the future we'll need to change what can be accessed without being authorized
+    skip_before_action :authorized
+
+    def index
+        @users = User.all
+    end
+
+    def new
+        @user = User.new
+    end
+
+    def show
+        @user = User.find(params[:id])
+    end
+
+    def create
+        @user = User.new(user_params)
+        if @user.save
+            p @user.errors.count
+            redirect_to @user, alert: 'User created successfully'
+        else
+            redirect_to new_user_path, alert: 'Error creating user'
+        end
+    end
+
+    def user_params
+        params.require(:user).permit(:username, :password, :salt, :encrypted_password)
+    end
+end

@@ -26,7 +26,7 @@ const Home = () => {
                     type="text"
                     placeholder="1"
                     value={sponsorId}
-                    onChange={(event) => setSponsorId(parseInt(event.target.value))}
+                    onChange={(event) => setSponsorId(event.target.value)}
                 />
                 <input type="submit" value="Submit" />
             </form>
