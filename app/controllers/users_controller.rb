@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+    # TODO: in the future we'll need to change what can be accessed without being authorized
     skip_before_action :authorized
 
     def index

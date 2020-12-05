@@ -8,7 +8,7 @@ class AuthController < ApplicationController
         return unless params['username'] && params['password']
 
         user = User.find_by_username(params['username'])
-        @valid = user.authenticate(params['password'])
+        @valid = user.authenticate(params['password']) unless user.nil?
         if @valid
             session[:user_id] = user.id
             redirect_to '/'

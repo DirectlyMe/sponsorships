@@ -2,21 +2,15 @@
 class ApplicationController < ActionController::Base
     protect_from_forgery with: :exception
 
+    # before any action on any controller, make sure the user is authorized
+    # can be disabled on a controller with skip_before_action :authorized
     before_action :authorized
-    helper_method :current_user
-    helper_method :logged_in?
 
-    def current_user
-        # make sure the session has a user_id key
-        return false unless session.key?(:user_id)
-
-        p session[:user_id]
-        # does the user_id exist?
-        User.find(session[:user_id])
-    end
-
+    # does the user exist?
     def logged_in?
-        current_user
+        return false unless session[:user_id]
+
+        User.find(session[:user_id]).present?
     end
 
     def authorized
