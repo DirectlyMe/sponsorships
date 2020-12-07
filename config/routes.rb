@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
+    resources :needs
+    resources :assistances
+    resources :user_types
+    resources :users
     get 'password/reset'
     post 'password/reset'
     get 'password/forgot'
     post 'password/forgot'
-    resources :users
 
     root 'homepage#index'
 

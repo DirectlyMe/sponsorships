@@ -6,13 +6,27 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-# create a test sponsor and sponsee
-sponsor = Sponsor.create first_name: 'Jack', last_name: 'Testa'
-sponsee = Sponsee.create first_name: 'Pete', last_name: 'Fleb'
-# create an association between the sponsor and sponsee
-Sponsorship.create sponsor_id: sponsor.id, sponsee_id: sponsee.id
+test_password = 'Test!123'
 
-# give the sponsor a service
-service = Service.create name: 'Free Room'
-# associate the service with the sponsor
-SponsorService.create sponsor_id: sponsor.id, service_id: service.id
+# create user_types
+admin_type = UserType.create! name: 'admin'
+sponsor_type = UserType.create! name: 'sponsor'
+sponsee_type = UserType.create! name: 'sponsee'
+
+# create assitances
+free_room = Assistance.create! name: 'Free Room'
+teach_cooking = Assistance.create! name: 'Teach Cooking'
+
+# create an admin user
+User.create! username: 'admin', password_digest: BCrypt::Password.create(test_password), email: 'admin@sponsorships-app.com', user_types_id: admin_type.id, first_name: 'Admin', last_name: 'Sponsor'
+
+# create a test sponsor and sponsee
+sponsor = User.create! username: 'testa', password_digest: BCrypt::Password.create(test_password), email: 'testing20191@tester.com', user_types_id: sponsor_type.id, first_name: 'Joshua', last_name: 'Schneider'
+sponsee = User.create! username: 'Pete', password_digest: BCrypt::Password.create(test_password), email: 'test@tester21231.com', user_types_id: sponsee_type.id, first_name: 'Pete', last_name: 'Fleb'
+
+# create an association between the sponsor and sponsee
+sponsorship = Sponsorship.create! sponsor_id: sponsor.id, sponsee_id: sponsee.id
+
+# create an agreed upon services for the sponsorship
+AgreedService.create! sponsorships_id: sponsorship.id, assistances_id: free_room.id
+AgreedService.create! sponsorships_id: sponsorship.id, assistances_id: teach_cooking.id
