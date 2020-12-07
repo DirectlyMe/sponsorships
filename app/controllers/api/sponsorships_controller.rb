@@ -28,7 +28,7 @@ class Api::SponsorshipsController < ApplicationController
 
     # /api/sponsorships/sponsor/:id
     def sponsor
-        sponsor = Sponsor.find(params[:id])
+        sponsor = User.sponsor.find(params[:id])
 
         render json: {
             sponsor: sponsor,
@@ -38,7 +38,7 @@ class Api::SponsorshipsController < ApplicationController
 
     # /api/sponsorships/sponsee/:id
     def sponsee
-        sponsee = Sponsee.find(params[:id])
+        sponsee = User.sponsee.find(params[:id])
 
         render json: {
             sponsee: sponsee,

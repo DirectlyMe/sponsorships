@@ -1,6 +1,6 @@
 class Api::SponsorsController < ApplicationController
     def list
-        render json: Sponsor.all
+        render json: User.sponsor.all
     end
     
     def create

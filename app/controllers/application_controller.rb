@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
     def logged_in?
         return false unless session[:user_id]
 
-        User.find(session[:user_id]).present?
+        User.find_by_id(session[:user_id]).present?
     end
 
     def authorized
