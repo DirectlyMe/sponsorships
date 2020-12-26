@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :organizations
     resources :needs
     resources :assistances
     resources :user_types
@@ -28,6 +29,9 @@ Rails.application.routes.draw do
             get 'sponsees', to: 'sponsorships#list_sponsees'
             get 'sponsor/:id', to: 'sponsorships#sponsor', constraints: { id: /[0-9]+(%7C[0-9]+)*/ }
             get 'sponsee/:id', to: 'sponsorships#sponsee', constraints: { id: /[0-9]+(%7C[0-9]+)*/ }
+        end
+        scope :handler_relations do
+            get 'handler/:id', to: 'handler_relations#handler'
         end
     end
 

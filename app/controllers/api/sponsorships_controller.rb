@@ -2,7 +2,7 @@
 class Api::SponsorshipsController < ApplicationController
     # /api/sponsorships/sponsors
     def list_sponsors
-        sponsors = Sponsor.all
+        sponsors = User.sponsor.all
         sponsorships = sponsors.map do |sponsor|
             {
                 sponsor: sponsor,

@@ -8,10 +8,19 @@ type Sponsee = {
 const Home = () => {
     const [sponsees, setSponsees] = useState<Array<Sponsee>>([]);
     const [sponsorId, setSponsorId] = useState<number | string>('');
+    const [handlerId, setHandlerId] = useState<number | string>('');
 
     async function getSponsorships(event) {
         event.preventDefault();
         const result = await fetch(`/api/sponsorships/sponsor/${sponsorId}`);
+        const json = await result.json();
+        console.log(json);
+        setSponsees(json.sponsees);
+    }
+
+    async function getHandlerRelations(event) {
+        event.preventDefault();
+        const result = await fetch(`/api/handler_relations/handler/${handlerId}`);
         const json = await result.json();
         console.log(json);
         setSponsees(json.sponsees);
@@ -31,6 +40,22 @@ const Home = () => {
                 <input type="submit" value="Submit" />
             </form>
             <h2>sponsees</h2>
+            <div>
+                {
+                    sponsees.map((sponsee: Sponsee, index: number) => <div key={index}>{sponsee.first_name} {sponsee.last_name}</div>)
+                }
+            </div>
+            <form onSubmit={getHandlerRelations}>
+                <label htmlFor="user_id">Enter Handler Id</label>
+                <br />
+                <input
+                    type="text"
+                    placeholder="1"
+                    value={handlerId}
+                    onChange={(event) => setHandlerId(event.target.value)}
+                />
+                <input type="submit" value="Submit" />
+            </form>
             <div>
                 {
                     sponsees.map((sponsee: Sponsee, index: number) => <div key={index}>{sponsee.first_name} {sponsee.last_name}</div>)
