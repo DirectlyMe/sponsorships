@@ -1,2 +1,2 @@
-class SponsorServicesController < ApplicationController
+class  Api::SponsorServicesController < ApplicationController
 end

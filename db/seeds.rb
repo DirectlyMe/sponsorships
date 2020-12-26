@@ -12,10 +12,14 @@ test_password = 'Test!123'
 admin_type = UserType.create! name: 'admin'
 sponsor_type = UserType.create! name: 'sponsor'
 sponsee_type = UserType.create! name: 'sponsee'
+handler_type = UserType.create! name: 'handler'
 
 # create assitances
 free_room = Assistance.create! name: 'Free Room'
 teach_cooking = Assistance.create! name: 'Teach Cooking'
+
+# create an organization
+org = Organization.create! name: 'Hope Institute'
 
 # create an admin user
 User.create! username: 'admin', password_digest: BCrypt::Password.create(test_password), email: 'admin@sponsorships-app.com', user_types_id: admin_type.id, first_name: 'Admin', last_name: 'Sponsor'
@@ -23,9 +27,14 @@ User.create! username: 'admin', password_digest: BCrypt::Password.create(test_pa
 # create a test sponsor and sponsee
 sponsor = User.create! username: 'testa', password_digest: BCrypt::Password.create(test_password), email: 'testing20191@tester.com', user_types_id: sponsor_type.id, first_name: 'Joshua', last_name: 'Schneider'
 sponsee = User.create! username: 'Pete', password_digest: BCrypt::Password.create(test_password), email: 'test@tester21231.com', user_types_id: sponsee_type.id, first_name: 'Pete', last_name: 'Fleb'
+handler = User.create! username: 'DefaultHandler', password_digest: BCrypt::Password.create(test_password), email: 'handler@tester21231.com', user_types_id: handler_type.id, first_name: 'Handy', last_name: 'McHand', organization_id: org.id
+
 
 # create an association between the sponsor and sponsee
 sponsorship = Sponsorship.create! sponsor_id: sponsor.id, sponsee_id: sponsee.id
+
+# create an associate between the handler and the sponsee
+HandlerRelation.create! handler_id: handler.id, sponsee_id: sponsee.id
 
 # create an agreed upon services for the sponsorship
 AgreedService.create! sponsorships_id: sponsorship.id, assistances_id: free_room.id

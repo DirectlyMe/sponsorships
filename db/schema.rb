@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_06_213958) do
+ActiveRecord::Schema.define(version: 2020_12_26_222807) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,15 @@ ActiveRecord::Schema.define(version: 2020_12_06_213958) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "handler_relations", force: :cascade do |t|
+    t.bigint "handler_id", null: false
+    t.bigint "sponsee_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["handler_id"], name: "index_handler_relations_on_handler_id"
+    t.index ["sponsee_id"], name: "index_handler_relations_on_sponsee_id"
+  end
+
   create_table "needs", force: :cascade do |t|
     t.bigint "sponsee_id", null: false
     t.bigint "assistances_id", null: false
@@ -39,6 +48,12 @@ ActiveRecord::Schema.define(version: 2020_12_06_213958) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["assistances_id"], name: "index_needs_on_assistances_id"
     t.index ["sponsee_id"], name: "index_needs_on_sponsee_id"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "services", force: :cascade do |t|
@@ -76,11 +91,15 @@ ActiveRecord::Schema.define(version: 2020_12_06_213958) do
     t.bigint "user_types_id", null: false
     t.string "first_name"
     t.string "last_name"
+    t.bigint "organization_id"
+    t.index ["organization_id"], name: "index_users_on_organization_id"
     t.index ["user_types_id"], name: "index_users_on_user_types_id"
   end
 
   add_foreign_key "agreed_services", "assistances", column: "assistances_id"
   add_foreign_key "agreed_services", "sponsorships", column: "sponsorships_id"
+  add_foreign_key "handler_relations", "users", column: "handler_id"
+  add_foreign_key "handler_relations", "users", column: "sponsee_id"
   add_foreign_key "needs", "assistances", column: "assistances_id"
   add_foreign_key "needs", "users", column: "sponsee_id"
   add_foreign_key "services", "assistances", column: "assistances_id"
