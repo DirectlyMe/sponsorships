@@ -22,12 +22,19 @@ teach_cooking = Assistance.create! name: 'Teach Cooking'
 org = Organization.create! name: 'Hope Institute'
 
 # create an admin user
-User.create! username: 'admin', password_digest: BCrypt::Password.create(test_password), email: 'admin@sponsorships-app.com', user_types_id: admin_type.id, first_name: 'Admin', last_name: 'Sponsor'
+User.create! username: 'admin', password_digest: BCrypt::Password.create(test_password),
+             email: 'admin@sponsorships-app.com', user_types_id: admin_type.id, first_name: 'Admin',
+             last_name: 'Sponsor'
 
 # create a test sponsor and sponsee
-sponsor = User.create! username: 'testa', password_digest: BCrypt::Password.create(test_password), email: 'testing20191@tester.com', user_types_id: sponsor_type.id, first_name: 'Joshua', last_name: 'Schneider'
-sponsee = User.create! username: 'Pete', password_digest: BCrypt::Password.create(test_password), email: 'test@tester21231.com', user_types_id: sponsee_type.id, first_name: 'Pete', last_name: 'Fleb'
-handler = User.create! username: 'DefaultHandler', password_digest: BCrypt::Password.create(test_password), email: 'handler@tester21231.com', user_types_id: handler_type.id, first_name: 'Handy', last_name: 'McHand', organization_id: org.id
+sponsor = User.create! username: 'testa', password_digest: BCrypt::Password.create(test_password),
+                       email: 'testing20191@tester.com', user_types_id: sponsor_type.id, first_name: 'Joshua',
+                       last_name: 'Schneider'
+sponsee = User.create! username: 'Pete', password_digest: BCrypt::Password.create(test_password),
+                       email: 'test@tester21231.com', user_types_id: sponsee_type.id, first_name: 'Pete', last_name: 'Fleb'
+handler = User.create! username: 'DefaultHandler', password_digest: BCrypt::Password.create(test_password),
+                       email: 'handler@tester21231.com', user_types_id: handler_type.id, first_name: 'Handy',
+                       last_name: 'McHand', organization_id: org.id
 
 
 # create an association between the sponsor and sponsee

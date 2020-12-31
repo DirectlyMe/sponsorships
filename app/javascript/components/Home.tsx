@@ -9,6 +9,7 @@ const Home = () => {
     const [sponsees, setSponsees] = useState<Array<Sponsee>>([]);
     const [sponsorId, setSponsorId] = useState<number | string>('');
     const [handlerId, setHandlerId] = useState<number | string>('');
+    const [selectType, setSelectType] = useState<string>('sponsors');
 
     async function getSponsorships(event) {
         event.preventDefault();
@@ -16,6 +17,7 @@ const Home = () => {
         const json = await result.json();
         console.log(json);
         setSponsees(json.sponsees);
+        setSelectType('sponsor');
     }
 
     async function getHandlerRelations(event) {
@@ -24,10 +26,12 @@ const Home = () => {
         const json = await result.json();
         console.log(json);
         setSponsees(json.sponsees);
+        setSelectType('handler');
     }
 
     return (
         <div>
+            <h2>This will be the main dashboard</h2>
             <form onSubmit={getSponsorships}>
                 <label htmlFor="user_id">Enter Sponsor Id</label>
                 <br />
@@ -39,12 +43,7 @@ const Home = () => {
                 />
                 <input type="submit" value="Submit" />
             </form>
-            <h2>sponsees</h2>
-            <div>
-                {
-                    sponsees.map((sponsee: Sponsee, index: number) => <div key={index}>{sponsee.first_name} {sponsee.last_name}</div>)
-                }
-            </div>
+            <br />
             <form onSubmit={getHandlerRelations}>
                 <label htmlFor="user_id">Enter Handler Id</label>
                 <br />
@@ -56,6 +55,8 @@ const Home = () => {
                 />
                 <input type="submit" value="Submit" />
             </form>
+
+            <h3>{selectType}'s Sponsees</h3>
             <div>
                 {
                     sponsees.map((sponsee: Sponsee, index: number) => <div key={index}>{sponsee.first_name} {sponsee.last_name}</div>)
