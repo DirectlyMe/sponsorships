@@ -52,6 +52,7 @@ class Api::HandlerRelationsController < ApplicationController
     end
 
     def create
+
     end
 
     def edit

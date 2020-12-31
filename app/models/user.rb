@@ -20,12 +20,12 @@ class User < ApplicationRecord
     def sponsees
         case UserType.find_by_id(user_types_id).name
         when 'sponsor'
-            User.select('sponsees.first_name, sponsees.last_name, sponsees.email')
+            User.select('sponsees.*')
                 .joins('INNER JOIN sponsorships s on users.id = s.sponsor_id')
                 .joins('INNER JOIN users sponsees on s.sponsee_id = sponsees.id')
                 .where(id: id)
         when 'handler'
-            User.select('sponsees.first_name, sponsees.last_name, sponsees.email')
+            User.select('sponsees.*')
                 .joins('INNER JOIN handler_relations s on users.id = s.handler_id')
                 .joins('INNER JOIN users sponsees on s.sponsee_id = sponsees.id')
                 .where(id: id)
@@ -52,5 +52,10 @@ class User < ApplicationRecord
             .joins('INNER JOIN handler_relations s on users.id = s.sponsee_id')
             .joins('INNER JOIN users handlers on s.handler_id = sponsors.id')
             .where(id: id)
+    end
+
+    # get the user's role
+    def role
+        UserType.find_by_id(user_types_id).name
     end
 end
