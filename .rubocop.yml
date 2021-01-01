@@ -897,7 +897,7 @@ Layout/LineLength:
   VersionAdded: '0.25'
   VersionChanged: '1.4'
   AutoCorrect: true
-  Max: 120
+  Max: 140
   # To make it possible to copy or click on URIs in the code, we allow lines
   # containing a URI to be longer than Max.
   AllowHeredoc: true
@@ -2109,7 +2109,7 @@ Metrics/AbcSize:
   Reference:
     - http://c2.com/cgi/wiki?AbcMetric
     - https://en.wikipedia.org/wiki/ABC_Software_Metric
-  Enabled: true
+  Enabled: false
   VersionAdded: '0.27'
   VersionChanged: '0.81'
   # The ABC size is a calculated magnitude, so this number can be an Integer or
@@ -2119,7 +2119,7 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Description: 'Avoid long blocks with many lines.'
-  Enabled: true
+  Enabled: false
   VersionAdded: '0.44'
   VersionChanged: <<next>>
   CountComments: false  # count full line comments?
@@ -2165,7 +2165,7 @@ Metrics/CyclomaticComplexity:
 Metrics/MethodLength:
   Description: 'Avoid methods longer than 10 lines of code.'
   StyleGuide: '#short-methods'
-  Enabled: true
+  Enabled: false
   VersionAdded: '0.25'
   VersionChanged: <<next>>
   CountComments: false  # count full line comments?
@@ -3035,7 +3035,7 @@ Style/DocumentDynamicEvalDefinition:
 
 Style/Documentation:
   Description: 'Document classes and non-namespace modules.'
-  Enabled: true
+  Enabled: false
   VersionAdded: '0.9'
   Exclude:
     - 'spec/**/*'
@@ -4386,7 +4386,7 @@ Style/SwapValues:
 Style/SymbolArray:
   Description: 'Use %i or %I for arrays of symbols.'
   StyleGuide: '#percent-i'
-  Enabled: true
+  Enabled: false
   VersionAdded: '0.9'
   VersionChanged: '0.49'
   EnforcedStyle: percent

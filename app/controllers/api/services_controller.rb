@@ -1,4 +1,4 @@
-class ServicesController < ApplicationController
+class  Api::ServicesController < ApplicationController
     def list
         render json: Service.all
     end

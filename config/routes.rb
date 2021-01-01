@@ -1,5 +1,26 @@
 Rails.application.routes.draw do
+    resources :action_items
+    resources :organizations
+    resources :needs
+    resources :assistances
+    resources :user_types
+    resources :users
+    get 'password/reset'
+    post 'password/reset'
+    get 'password/forgot'
+    post 'password/forgot'
+
     root 'homepage#index'
+
+    scope :auth do
+        get 'login', to: 'auth#show'
+        post 'login', to: 'auth#login'
+        get 'logout', to: 'auth#logout'
+    end
+
+    scope :user do
+        get 'current', to: 'users#current_user'
+    end
 
     namespace :api, defaults: { format: 'json' } do
         scope :sponsees do
@@ -13,6 +34,9 @@ Rails.application.routes.draw do
             get 'sponsees', to: 'sponsorships#list_sponsees'
             get 'sponsor/:id', to: 'sponsorships#sponsor', constraints: { id: /[0-9]+(%7C[0-9]+)*/ }
             get 'sponsee/:id', to: 'sponsorships#sponsee', constraints: { id: /[0-9]+(%7C[0-9]+)*/ }
+        end
+        scope :handler_relations do
+            get 'handler/:id', to: 'handler_relations#handler'
         end
     end
 
