@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-    # TODO: in the future we'll need to change what can be accessed without being authorized
-    skip_before_action :authorized, only: [:new, :create]
+    skip_before_action :authorized, only: [:new, :create, :current_user]
 
     def index
         @users = User.all
@@ -16,7 +15,8 @@ class UsersController < ApplicationController
             first_name: user.first_name,
             last_name: user.last_name,
             role: user.role,
-            action_items: user.action_items
+            action_items: user.action_items,
+            sponsees: user.sponsees
         }
     end
 
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
 
     def current_user
         render json: {
-            user_id: session[:user_id]
+            user_id: session[:user_id].positive? ? session[:user_id] : -1
         }
     end
 

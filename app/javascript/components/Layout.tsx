@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled, { css } from "styled-components";
+import { UserContext } from "../contexts/UserContext";
 import Navbar from "./Navbar"
 
 const ContentSection = styled.div`
@@ -29,15 +30,18 @@ const NavSection = styled.div`
 `
 
 const Layout = ({ children }) => {
+    const { authenticated } = useContext(UserContext);
     return (
-        <>
-            <NavSection>
-                <Navbar />
-            </NavSection>
-            <ContentSection>
-                {children}
-            </ContentSection>
-        </>
+        authenticated ? (
+            <>
+                <NavSection>
+                    <Navbar />
+                </NavSection>
+                <ContentSection>
+                    {children}
+                </ContentSection>
+            </>
+        ) : null
     )
 }
 
