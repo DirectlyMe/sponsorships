@@ -7,6 +7,7 @@ class User < ApplicationRecord
     has_many :assistances, through: :needs
     has_many :sponsorships
     has_many :handler_relations
+    has_many :action_items
 
     has_secure_password
     validates :username, :email, uniqueness: true

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Routes from "../routes/Index";
 import Layout from "./Layout";
+import { UserProvider } from "../contexts/UserContext";
 
 // global app styles
 const AppStyles = styled.div`
@@ -17,9 +18,11 @@ const App = () => {
     return (
         <AppStyles>
             <Router>
-                <Layout>
-                    {Routes}
-                </Layout>
+                <UserProvider>
+                    <Layout>
+                        {Routes}
+                    </Layout>
+                </UserProvider>
             </Router>
         </AppStyles>
     );
