@@ -14,7 +14,7 @@ sponsor_type = UserType.create! name: 'sponsor'
 sponsee_type = UserType.create! name: 'sponsee'
 handler_type = UserType.create! name: 'handler'
 
-# create assitances
+# create assistances
 free_room = Assistance.create! name: 'Free Room'
 teach_cooking = Assistance.create! name: 'Teach Cooking'
 
@@ -22,7 +22,7 @@ teach_cooking = Assistance.create! name: 'Teach Cooking'
 org = Organization.create! name: 'Hope Institute'
 
 # create an admin user
-User.create! username: 'admin', password_digest: BCrypt::Password.create(test_password),
+admin = User.create! username: 'admin', password_digest: BCrypt::Password.create(test_password),
              email: 'admin@sponsorships-app.com', user_types_id: admin_type.id, first_name: 'Admin',
              last_name: 'Sponsor'
 
@@ -46,3 +46,7 @@ HandlerRelation.create! handler_id: handler.id, sponsee_id: sponsee.id
 # create an agreed upon services for the sponsorship
 AgreedService.create! sponsorships_id: sponsorship.id, assistances_id: free_room.id
 AgreedService.create! sponsorships_id: sponsorship.id, assistances_id: teach_cooking.id
+
+# create action items
+ActionItem.create user_id: admin.id, subject: 'test subject', detail: { test: 'testing detail' }, complete: false
+ActionItem.create user_id: handler.id, subject: 'test subject', detail: { test: 'testing detail' }, complete: false

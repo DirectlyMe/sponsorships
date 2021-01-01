@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  resources :organizations
+    resources :action_items
+    resources :organizations
     resources :needs
     resources :assistances
     resources :user_types
@@ -15,6 +16,10 @@ Rails.application.routes.draw do
         get 'login', to: 'auth#show'
         post 'login', to: 'auth#login'
         get 'logout', to: 'auth#logout'
+    end
+
+    scope :user do
+        get 'current', to: 'users#current_user'
     end
 
     namespace :api, defaults: { format: 'json' } do
