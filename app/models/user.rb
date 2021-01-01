@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+    include UserRoles
+
     has_one :user_type
     has_one :organization
     has_many :services
@@ -19,7 +21,7 @@ class User < ApplicationRecord
 
     # Get a list of sponsees associated with the user, this will vary the type of user
     def sponsees
-        case UserType.find_by_id(user_types_id).name
+        case role
         when 'sponsor'
             User.select('sponsees.*')
                 .joins('INNER JOIN sponsorships s on users.id = s.sponsor_id')
@@ -37,7 +39,7 @@ class User < ApplicationRecord
 
     # get the sponsors associated with a sponsee
     def sponsors
-        raise "User #{id} is not a Sponsee" unless UserType.find_by_id(user_types_id).name == 'sponsee'
+        raise "User #{id} is not a Sponsee" unless role == 'sponsee'
 
         User.select('sponsors.*')
             .joins('INNER JOIN sponsorships s on users.id = s.sponsor_id')
@@ -47,7 +49,7 @@ class User < ApplicationRecord
 
     # get the handlers associated with a Sponsee
     def handlers
-        raise "User #{id} is not a Sponsee" unless UserType.find_by_id(user_types_id).name == 'sponsee'
+        raise "User #{id} is not a Sponsee" unless role == 'sponsee'
 
         User.select('handlers.*')
             .joins('INNER JOIN handler_relations s on users.id = s.sponsee_id')
