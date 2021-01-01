@@ -1,8 +1,7 @@
 # Handle login page and authentication
 class AuthController < ApplicationController
+    include UserRoles
     skip_before_action :authorized
-
-    ADMIN_CONSOLE_ROLES = %w[admin handler]
 
     def show; end
 

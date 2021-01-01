@@ -12,17 +12,21 @@ type User = {
 
 interface UserContext {
     loading: boolean;
+    authenticated: boolean;
     user: User;
     updateUser: (user: User) => void;
     setLoading: (loading: boolean) => void;
+    setAuth: (authenticated: boolean) => void;
 }
 
 // define an outline of the user context, implementation details are in UserProvider
 export const UserContext = createContext<UserContext>({
     loading: false,
+    authenticated: false,
     user: undefined,
     updateUser: (user: User) => {},
-    setLoading: (loading: boolean) => {}
+    setLoading: (loading: boolean) => {},
+    setAuth: (authenticated: boolean) => {}
 });
 
 // Implement UserContext and return a Provider that houses child components
@@ -37,6 +41,13 @@ export const UserProvider = ({ children }) => {
         // get the current user's id
         let result = await fetch('/user/current');
         let data = await result.json();
+
+        if (data['user_id'] === -1) {
+            setAuth(false);
+            return;
+        }
+
+        setAuth(true);
         // now get he data associated with that user
         result = await fetch(`/users/${data['user_id']}`);
         data = await result.json();
@@ -70,9 +81,19 @@ export const UserProvider = ({ children }) => {
         });
     };
 
+    const setAuth = (authenticated: boolean) => {
+        setUser(prevState => {
+            return {
+                ...prevState,
+                authenticated
+            };
+        });
+    };
+
     // set the default state of UserContext
     const userState = {
         loading: false,
+        authenticated: false,
         user: {
             firstName: '',
             lastName: '',
@@ -83,7 +104,8 @@ export const UserProvider = ({ children }) => {
             }]
         },
         updateUser,
-        setLoading
+        setLoading,
+        setAuth
     };
 
     const [user, setUser] = useState<UserContext>(userState);

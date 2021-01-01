@@ -23,8 +23,8 @@ org = Organization.create! name: 'Hope Institute'
 
 # create an admin user
 admin = User.create! username: 'admin', password_digest: BCrypt::Password.create(test_password),
-             email: 'admin@sponsorships-app.com', user_types_id: admin_type.id, first_name: 'Admin',
-             last_name: 'Sponsor'
+                     email: 'admin@sponsorships-app.com', user_types_id: admin_type.id, first_name: 'Admin',
+                     last_name: 'Sponsor'
 
 # create a test sponsor and sponsee
 sponsor = User.create! username: 'testa', password_digest: BCrypt::Password.create(test_password),
