@@ -1,6 +1,6 @@
 # Handle login page and authentication
 class AuthController < ApplicationController
-    include UserRoles
+    include UserConcerns
     skip_before_action :authorized
 
     def show; end

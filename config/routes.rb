@@ -1,10 +1,4 @@
 Rails.application.routes.draw do
-    resources :action_items
-    resources :organizations
-    resources :needs
-    resources :assistances
-    resources :user_types
-    resources :users
     get 'password/reset'
     post 'password/reset'
     get 'password/forgot'
@@ -18,7 +12,7 @@ Rails.application.routes.draw do
         get 'logout', to: 'auth#logout'
     end
 
-    scope :user do
+    scope :users do
         get 'current', to: 'users#current_user'
     end
 
@@ -40,6 +34,17 @@ Rails.application.routes.draw do
         end
     end
 
-    get '*path', to: 'homepage#index'
+    resources :action_items
+    resources :organizations
+    resources :needs
+    resources :assistances
+    resources :user_types
+    resources :users
+
+    # make sure active_storage resolves
+    post 'rails/active_storage/direct_uploads', to: 'direct_uploads#create'
+    get '*path', to: 'homepage#index', constraints: lambda { |req|
+        req.path.exclude? 'rails/active_storage'
+    }
     # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

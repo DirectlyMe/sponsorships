@@ -1,13 +1,15 @@
 import React, { createContext, useState, useEffect } from "react";
 
 type User = {
+    userId: number;
     firstName: string;
     lastName: string;
     role: string;
     actionItems: Array<{
         subject: string;
         detail: {};
-    }>
+    }>;
+    profileImage: string;
 }
 
 interface UserContext {
@@ -39,7 +41,7 @@ export const UserProvider = ({ children }) => {
     async function getUser() {
         setLoading(true);
         // get the current user's id
-        let result = await fetch('/user/current');
+        let result = await fetch('/users/current');
         let data = await result.json();
 
         if (data['user_id'] === -1) {
@@ -54,10 +56,12 @@ export const UserProvider = ({ children }) => {
         // cast the returned data over to the UserContext naming conventions
         // and update our UserContext with the retrieved user
         updateUser({
+            userId: data['user_id'],
             firstName: data['first_name'],
             lastName: data['last_name'],
             role: data['role'],
-            actionItems: data['action_items']
+            actionItems: data['action_items'],
+            profileImage: data['profile_image']
         });
     }
 
@@ -95,13 +99,15 @@ export const UserProvider = ({ children }) => {
         loading: false,
         authenticated: false,
         user: {
+            userId: -1,
             firstName: '',
             lastName: '',
             role: '',
             actionItems: [{
                 subject: '',
                 detail: {}
-            }]
+            }],
+            profileImage: ''
         },
         updateUser,
         setLoading,
