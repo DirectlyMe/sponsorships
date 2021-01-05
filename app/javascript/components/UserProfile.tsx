@@ -1,21 +1,111 @@
-import React, { useState, useContext } from "react";
-import { DirectUpload } from "@rails/activestorage";
+import React, {useState, useEffect, useContext, useCallback} from "react";
 import { UserContext } from "../contexts/UserContext";
-import { getCSRF} from "../helpers/fetch_helpers";
+import { uploadProfileImage } from "../helpers/image_uploads";
+import { useDropzone } from "react-dropzone";
+import styled, { css } from "styled-components";
+
+const ProfileLayout = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    /* there some padding/margin somewhere that isn't being removed, making the page to high */
+    height: calc(100vh - 20px);
+`;
+
+const ImageSection = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    
+    img {
+        width: 500px;
+        height: 500px;
+    }
+`;
+
+const FieldsSection = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: 100%;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+`;
+
+const FieldsForm = styled.form`
+    display: flex;
+    flex-direction: column;
+`
+
+const Input = styled.input`
+    padding: 10px 20px 10px 20px;
+    margin: 10px;
+    width: 500px;
+`
 
 const UserProfile = () => {
-    const { user } = useContext(UserContext);
+    const { loading, user, getUser } = useContext(UserContext);
+    const [ profileImage, setProfileImage ] = useState<File>();
+    const [ preview, setPreview ] = useState<string>();
 
-    function uploadFile(file) {
+    useEffect(() => {
+       setup().then(res => 'promise handled');
+    }, [loading]);
 
+    async function setup() {
+        if (!loading) setPreview(user.profileImage);
     }
 
+    async function updateUser() {
+        // TODO: submit update attributes
+
+        // upload the new profile image
+        if (profileImage != null)
+            await uploadProfileImage(profileImage, user.userId, await (getUser));
+    }
+
+    // handle the onDrop event from Dropzone
+    const onDrop = useCallback(acceptedFiles => {
+        setProfileImage(acceptedFiles[0]);
+        setPreview(URL.createObjectURL(acceptedFiles[0]));
+    }, []);
+
+    // get props from Dropzone necessary for component markup
+    const { getRootProps, getInputProps } = useDropzone({onDrop})
     return (
-        <div>
-            <form onSubmit={uploadFile}>
-                <input type="file" />
-            </form>
-        </div>
+        <ProfileLayout>
+            <ImageSection>
+                <p style={{textAlign: 'center'}} >Profile Image</p>
+                <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    {
+                        preview == null ?
+                            <img alt="profile image" src="https://via.placeholder.com/500x500?text=Upload+An+Image" />
+                            : <img alt="profile image" src={preview} />
+                    }
+                </div>
+                <button onClick={ async () => await updateUser() }>submit file</button>
+            </ImageSection>
+            <FieldsSection>
+                <FieldsForm>
+                    <Input />
+                    <Input />
+                    <Input />
+                    <Input />
+                    <Input />
+                </FieldsForm>
+            </FieldsSection>
+        </ProfileLayout>
     );
 }
 

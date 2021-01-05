@@ -16,6 +16,12 @@ Rails.application.routes.draw do
         get 'current', to: 'users#current_user'
     end
 
+    scope :rails do
+        scope :active_support do
+            post 'direct_uploads', to: 'api/direct_uploads#create'
+        end
+    end
+
     namespace :api, defaults: { format: 'json' } do
         scope :sponsees do
             get 'sponsees', to: 'sponsees#list'
@@ -42,7 +48,6 @@ Rails.application.routes.draw do
     resources :users
 
     # make sure active_storage resolves
-    post 'rails/active_storage/direct_uploads', to: 'direct_uploads#create'
     get '*path', to: 'homepage#index', constraints: lambda { |req|
         req.path.exclude? 'rails/active_storage'
     }
