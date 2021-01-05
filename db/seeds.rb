@@ -5,6 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+include UserConcerns
 
 test_password = 'Test!123'
 
@@ -24,17 +25,18 @@ org = Organization.create! name: 'Hope Institute'
 # create an admin user
 admin = User.create! username: 'admin', password_digest: BCrypt::Password.create(test_password),
                      email: 'admin@sponsorships-app.com', user_types_id: admin_type.id, first_name: 'Admin',
-                     last_name: 'Sponsor'
+                     last_name: 'Sponsor', creation_status: CREATION_STATUSES[:created]
 
 # create a test sponsor and sponsee
 sponsor = User.create! username: 'testa', password_digest: BCrypt::Password.create(test_password),
                        email: 'testing20191@tester.com', user_types_id: sponsor_type.id, first_name: 'Joshua',
-                       last_name: 'Schneider'
+                       last_name: 'Schneider', creation_status: CREATION_STATUSES[:created]
 sponsee = User.create! username: 'Pete', password_digest: BCrypt::Password.create(test_password),
-                       email: 'test@tester21231.com', user_types_id: sponsee_type.id, first_name: 'Pete', last_name: 'Fleb'
+                       email: 'test@tester21231.com', user_types_id: sponsee_type.id, first_name: 'Pete', last_name: 'Fleb',
+                       creation_status: CREATION_STATUSES[:created]
 handler = User.create! username: 'DefaultHandler', password_digest: BCrypt::Password.create(test_password),
                        email: 'handler@tester21231.com', user_types_id: handler_type.id, first_name: 'Handy',
-                       last_name: 'McHand', organization_id: org.id
+                       last_name: 'McHand', organization_id: org.id, creation_status: CREATION_STATUSES[:created]
 
 
 # create an association between the sponsor and sponsee

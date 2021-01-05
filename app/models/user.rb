@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-    include UserRoles
+    include UserConcerns
 
     has_one :user_type
     has_one :organization
@@ -10,6 +10,7 @@ class User < ApplicationRecord
     has_many :sponsorships
     has_many :handler_relations
     has_many :action_items
+    has_one_attached :profile_image
 
     has_secure_password
     validates :username, :email, uniqueness: true
@@ -19,7 +20,7 @@ class User < ApplicationRecord
     scope :sponsor, -> { joins('INNER JOIN user_types ON user_types.id = users.user_types_id').where('user_types.name = \'sponsor\'') }
     scope :sponsee, -> { joins('INNER JOIN user_types ON user_types.id = users.user_types_id').where('user_types.name = \'sponsee\'') }
 
-    # Get a list of sponsees associated with the user, this will vary the type of user
+    # Get a list of sponsees associated with the user, this will vary with the type of user
     def sponsees
         case role
         when 'sponsor'

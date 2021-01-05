@@ -1,19 +1,22 @@
 import React, { createContext, useState, useEffect } from "react";
 
 type User = {
+    userId: number;
     firstName: string;
     lastName: string;
     role: string;
     actionItems: Array<{
         subject: string;
         detail: {};
-    }>
+    }>;
+    profileImage: string;
 }
 
 interface UserContext {
     loading: boolean;
     authenticated: boolean;
     user: User;
+    getUser: () => void;
     updateUser: (user: User) => void;
     setLoading: (loading: boolean) => void;
     setAuth: (authenticated: boolean) => void;
@@ -24,6 +27,7 @@ export const UserContext = createContext<UserContext>({
     loading: false,
     authenticated: false,
     user: undefined,
+    getUser: () => {},
     updateUser: (user: User) => {},
     setLoading: (loading: boolean) => {},
     setAuth: (authenticated: boolean) => {}
@@ -33,32 +37,49 @@ export const UserContext = createContext<UserContext>({
 export const UserProvider = ({ children }) => {
     // retrieve our UserContext dependencies when UserProvider is instantiated
     useEffect(() => {
-        getUser().then(res => setLoading(false));
+        getUser().then(res => console.log('user loaded'));
     }, []);
 
-    async function getUser() {
+    const getUser = async () => {
         setLoading(true);
+
         // get the current user's id
-        let result = await fetch('/user/current');
-        let data = await result.json();
-
-        if (data['user_id'] === -1) {
-            setAuth(false);
-            return;
+        const userId = -1;
+        if (userId === -1) {
+            setLoading(false);
+            logoutUser();
+            throw 'Cannot get user id, please reauthenticate.'
         }
-
         setAuth(true);
-        // now get he data associated with that user
-        result = await fetch(`/users/${data['user_id']}`);
-        data = await result.json();
+
+        // now get the data associated with that user
+        const result = await fetch(`/users/${userId}`);
+        const data = await result.json();
         // cast the returned data over to the UserContext naming conventions
         // and update our UserContext with the retrieved user
         updateUser({
+            userId: data['user_id'],
             firstName: data['first_name'],
             lastName: data['last_name'],
             role: data['role'],
-            actionItems: data['action_items']
+            actionItems: data['action_items'],
+            profileImage: data['profile_image']
         });
+        setLoading(false);
+    }
+
+    const getUserId = async () => {
+        const result = await fetch('/users/current');
+        const data = await result.json();
+        return data['user_id'];
+    }
+
+    const logoutUser = () => {
+        setAuth(false);
+        if (window.location.pathname != '/auth/logout' && window.location.pathname != '/auth/login') {
+            window.location.pathname = '/auth/logout';
+            window.location.pathname = '/auth/login';
+        }
     }
 
     // replace the user object with a new user object
@@ -95,14 +116,17 @@ export const UserProvider = ({ children }) => {
         loading: false,
         authenticated: false,
         user: {
+            userId: -1,
             firstName: '',
             lastName: '',
             role: '',
             actionItems: [{
                 subject: '',
                 detail: {}
-            }]
+            }],
+            profileImage: ''
         },
+        getUser,
         updateUser,
         setLoading,
         setAuth

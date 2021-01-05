@@ -5,8 +5,9 @@ import Navbar from "./Navbar"
 
 const ContentSection = styled.div`
     @media (min-width: 900px) {
-        width: calc(100vw - 300px);
-        margin-left: 300px;
+        width: calc(100vw - 350px);
+        margin: 0 0 0 300px;
+        padding: 0;
     }
     @media (max-width: 899px) {
         width: 100vw;  

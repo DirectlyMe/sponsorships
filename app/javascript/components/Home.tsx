@@ -2,7 +2,16 @@ import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 
 const Home = () => {
-    const { user, loading } = useContext(UserContext);
+    const { user, loading, getUser } = useContext(UserContext);
+
+    useEffect(() => {
+        if (user == null)
+            hydrate().then(res => 'promise handled');
+    }, []);
+
+    async function hydrate() {
+        await getUser()
+    }
 
     return (
         <div>
