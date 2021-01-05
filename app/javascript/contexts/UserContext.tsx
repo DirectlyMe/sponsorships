@@ -44,7 +44,7 @@ export const UserProvider = ({ children }) => {
         setLoading(true);
 
         // get the current user's id
-        const userId = -1;
+        const userId = await getUserId();
         if (userId === -1) {
             setLoading(false);
             logoutUser();
