@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 const Nav = styled.nav`
     display: flex;
     flexDirection: column;
-    padding: 20px 10px 20px 10px;
+    padding: 20px 40px 20px 40px;
     list-style-type: none;
+    justify-content: flex-end;
     
     ul {
         text-decoration: none;
         list-style-type: none;
+        text-align: left;
         
         a, a:visited, a:active {
             text-decoration: none;
@@ -22,6 +24,7 @@ const Nav = styled.nav`
         
         li {
             padding-top: 10px;
+            font-size: 18px;
         }
     }
 `

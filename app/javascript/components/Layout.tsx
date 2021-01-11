@@ -1,32 +1,46 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled, { css } from "styled-components";
 import { UserContext } from "../contexts/UserContext";
-import Navbar from "./Navbar"
+import Navbar from "./Navbar";
+import StatusBar from "./StatusBar";
 
 const ContentSection = styled.div`
+    display: flex;
+    margin-top: 120px;
     @media (min-width: 900px) {
         width: calc(100vw - 350px);
-        margin: 0 0 0 300px;
+        margin-left: 340px;
         padding: 0;
     }
     @media (max-width: 899px) {
-        width: 100vw;  
-        vertical-align: -300px;
     }
 `
 
-const NavSection = styled.div`
+const StatusBarSection = styled.div`
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 90px;
+    border-bottom: 1px solid;
+    
     @media (min-width: 900px) {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 300px;
-        height: 100vh;
-        border-right: 1px solid;
     }
     @media (max-width: 899px) {
-        width: 100vw;
-        height: 100px;
+    }
+`
+
+const NavbarSection = styled.div`
+    position: fixed;
+    left: 0;
+    top: 200px;
+    width: 300px;
+    height: 70vh;
+    border-right: 1px solid;
+    
+    @media (min-width: 900px) {
+    }
+    @media (max-width: 899px) {
     }
 `
 
@@ -35,9 +49,12 @@ const Layout = ({ children }) => {
     return (
         authenticated ? (
             <>
-                <NavSection>
+                <StatusBarSection>
+                    <StatusBar />
+                </StatusBarSection>
+                <NavbarSection>
                     <Navbar />
-                </NavSection>
+                </NavbarSection>
                 <ContentSection>
                     {children}
                 </ContentSection>
