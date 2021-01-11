@@ -1,3 +1,4 @@
+// only use for user specific data
 import React, { createContext, useState, useEffect } from "react";
 
 type User = {
