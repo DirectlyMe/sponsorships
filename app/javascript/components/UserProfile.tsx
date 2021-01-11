@@ -8,11 +8,12 @@ const ProfileLayout = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     margin: 0;
     padding: 0;
     width: 100%;
-    /* there some padding/margin somewhere that isn't being removed, making the page to high */
-    height: calc(100vh - 20px);
+    height: 100%;
+    margin-top: 8%;
 `;
 
 const ImageSection = styled.div`
@@ -27,7 +28,7 @@ const ImageSection = styled.div`
     
     img {
         width: 500px;
-        height: 500px;
+        height: 600px;
     }
 `;
 
@@ -97,12 +98,13 @@ const UserProfile = () => {
                 <button onClick={ async () => await updateUser() }>submit file</button>
             </ImageSection>
             <FieldsSection>
+                <span style={{ textAlign: "center", width: "550px" }}>User Fields Placeholder</span>
                 <FieldsForm>
-                    <Input />
-                    <Input />
-                    <Input />
-                    <Input />
-                    <Input />
+                    <Input placeholder="first name"/>
+                    <Input placeholder="last name" />
+                    <Input placeholder="phone number" />
+                    <Input placeholder="email"/>
+                    <Input placeholder="social worker ID"/>
                 </FieldsForm>
             </FieldsSection>
         </ProfileLayout>
