@@ -9,38 +9,29 @@ const ProfileLayout = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    margin-top: 8%;
 `;
 
 const ImageSection = styled.div`
     display: flex;
     flex-direction: column;
-    width: 40%;
     height: 100%;
+    width: 50%;
     align-items: center;
     justify-content: center;
-    margin: 0;
-    padding: 0;
     
     img {
-        width: 500px;
-        height: 600px;
+        width: 100%;
+        height: 100%;
     }
 `;
 
 const FieldsSection = styled.div`
     display: flex;
     flex-direction: column;
-    width: 60%;
     height: 100%;
-    align-items: flex-start;
+    width: 50%;
+    align-items: center;
     justify-content: center;
-    margin: 0;
-    padding: 0;
 `;
 
 const FieldsForm = styled.form`
@@ -51,7 +42,7 @@ const FieldsForm = styled.form`
 const Input = styled.input`
     padding: 10px 20px 10px 20px;
     margin: 10px;
-    width: 500px;
+    width: 350px;
 `
 
 const UserProfile = () => {
@@ -86,7 +77,6 @@ const UserProfile = () => {
     return (
         <ProfileLayout>
             <ImageSection>
-                <p style={{textAlign: 'center'}} >Profile Image</p>
                 <div {...getRootProps()}>
                     <input {...getInputProps()} />
                     {
@@ -98,7 +88,6 @@ const UserProfile = () => {
                 <button onClick={ async () => await updateUser() }>submit file</button>
             </ImageSection>
             <FieldsSection>
-                <span style={{ textAlign: "center", width: "550px" }}>User Fields Placeholder</span>
                 <FieldsForm>
                     <Input placeholder="first name"/>
                     <Input placeholder="last name" />

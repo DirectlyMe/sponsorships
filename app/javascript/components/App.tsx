@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 import Routes from "../routes/Index";
 import Layout from "./Layout";
 import { UserProvider } from "../contexts/UserContext";
+import { GlobalAppProvider } from "../contexts/GlobalAppContext";
 
 // global app styles
 const AppStyles = styled.div`
@@ -18,11 +19,13 @@ const App = () => {
     return (
         <AppStyles>
             <Router>
-                <UserProvider>
-                    <Layout>
-                        {Routes}
-                    </Layout>
-                </UserProvider>
+                <GlobalAppProvider>
+                    <UserProvider>
+                        <Layout>
+                            {Routes}
+                        </Layout>
+                    </UserProvider>
+                </GlobalAppProvider>
             </Router>
         </AppStyles>
     );

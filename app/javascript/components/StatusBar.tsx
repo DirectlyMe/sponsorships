@@ -1,7 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import styled, { css } from "styled-components";
 import SearchBar from "./SearchBar";
+import UserProfile from "./UserProfile";
 import { UserContext } from "../contexts/UserContext";
+import ContentModal from "./ContentModal";
 
 const StatusLayout = styled.div`
     position: fixed;
@@ -34,6 +36,7 @@ const ProfileImage = styled.img`
 
 const StatusBar = () => {
     const { user, loading } = useContext(UserContext);
+    const [showModal, setShowModal] = useState(false);
 
     return (
         <StatusLayout>
@@ -41,7 +44,10 @@ const StatusBar = () => {
             <SearchSection>
                 <SearchBar />
             </SearchSection>
-            { loading ? <ProfileImage src="" /> : <ProfileImage src={user.profileImage} /> }
+            { loading ? <ProfileImage src="" /> : <ProfileImage src={user.profileImage} onClick={() => setShowModal(true)} /> }
+            <ContentModal show={showModal} setShow={setShowModal}>
+                <UserProfile />
+            </ContentModal>
         </StatusLayout>
     )
 }
