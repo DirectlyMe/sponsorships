@@ -62,4 +62,9 @@ class User < ApplicationRecord
     def role
         UserType.find_by_id(user_types_id).name
     end
+
+    def phone=(value)
+        # TODO: this needs further validation for phone numbers right now we are just stripping non-digits
+        super(value.to_s.delete('^0-9').to_i)
+    end
 end

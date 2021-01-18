@@ -6,7 +6,7 @@ export async function uploadProfileImage(file: File, userId: number, callback: (
     const upload = new DirectUpload(file, '/rails/active_storage/direct_uploads');
     upload.create(async (error, blob) => {
         if (error)
-            console.log(error);
+            throw Error('Could not upload image');
         else {
             const response = await fetch(`/users/${userId}`, {
                 method: 'PUT',
@@ -19,6 +19,9 @@ export async function uploadProfileImage(file: File, userId: number, callback: (
             })
 
             if (callback !== null && response) await callback();
+
+            if (Math.floor(response.status / 100) !== 2)
+                throw Error('Could not upload image');
         }
     });
 }

@@ -25,10 +25,6 @@ const Home = () => {
                     user.actionItems.map((item, i) => <span key={i}>{item.subject}</span>)
                     : null}
             </div>
-            <button onClick={() => setShowModal(true)}>change modal state</button>
-            <ContentModal show={showModal} setShow={setShowModal}>
-                <div>Modal Child Elements Placeholder</div>
-            </ContentModal>
         </div>
     );
 };
