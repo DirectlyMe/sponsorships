@@ -51,16 +51,12 @@ class UsersController < ApplicationController
         user = User.find_by(id: params.require(:id))
         return not_found if user.nil?
 
-        # did they send a new profile image?
-        user.profile_image.attach(update_params[:profile_image]) if update_params.key?(:profile_image)
 
         # updated values, don't update the profile_image
         user.assign_attributes(update_params.reject { |attr| attr == :profile_image })
+        # did they send a new profile image?
+        user.profile_image.attach(update_params[:profile_image]) if update_params.key?(:profile_image)
         user.save!
-
-        render json: {
-            status: 'updated'
-        }
     end
 
     private
@@ -70,6 +66,6 @@ class UsersController < ApplicationController
     end
 
     def update_params
-        params.permit(:first_name, :last_name, :email, :image_url, :phone, :description, :employee_id)
+        params.permit(:first_name, :last_name, :email, :profile_image, :phone, :description, :employee_id)
     end
 end

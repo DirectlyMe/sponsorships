@@ -22,6 +22,7 @@ const ImageSection = styled.div`
     
     img {
         width: 100%;
+        max-width: 600px;
         height: 100%;
     }
 `;
@@ -71,6 +72,8 @@ const UserProfile = () => {
     const [ phone, setPhone ] = useState<string>('');
     const [ id, setID ] = useState<string>('');
     const [ description, setDescription ] = useState<string>('');
+    const [ error, setError ] = useState<string>();
+    const [ success, setSuccess ] = useState<boolean>(false);
 
     useEffect(() => {
        setup().then(res => 'promise handled');
@@ -88,8 +91,11 @@ const UserProfile = () => {
         }
     }
 
-    async function updateUser() {
-        // TODO: submit update attributes
+    async function updateUser(e) {
+        e.preventDefault();
+        setError(null);
+
+        // update user attributes
         const result = await fetch(`/users/${user.userId}`, {
                         method: 'PUT',
                         headers: {
@@ -105,14 +111,26 @@ const UserProfile = () => {
                             "employee_id": id,
                             "description": description
                         })
-            });
+                });
 
-        if (result.status / 100 !== 2)
-            throw Error('User update failed');
+        // check the http status, if its not in the 200s set error
+        if (Math.floor(result.status / 100) !== 2) {
+            setError('Failed to update user attributes');
+            return;
+        }
 
         // upload the new profile image
-        if (profileImage != null)
-            await uploadProfileImage(profileImage, user.userId, await (getUser));
+        if (profileImage != null) {
+            try {
+                await uploadProfileImage(profileImage, user.userId, getUser)
+            }
+            catch(error) {
+                setError(error != null ? error + ', Could not set image' : 'Could not set image');
+                return;
+            }
+        }
+
+        setSuccess(true);
     }
 
     // handle the onDrop event from Dropzone
@@ -136,7 +154,13 @@ const UserProfile = () => {
                 </div>
             </ImageSection>
             <FieldsSection>
-                <FieldsForm onSubmit={async () => await updateUser()}>
+                {
+                    error != null ? <div>{error}</div> : null
+                }
+                {
+                    success ? <div>Save Successful!</div> : null
+                }
+                <FieldsForm onSubmit={async (e) => await updateUser(e)}>
                     <input placeholder="First Name" value={firstName} onChange={e => setFirstName(e.target.value)} />
                     <input placeholder="Last Name" value={lastName} onChange={e => setLastName(e.target.value)} />
                     <input placeholder="Phone number" value={phone} onChange={e => setPhone(e.target.value)} />
