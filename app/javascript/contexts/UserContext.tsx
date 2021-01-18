@@ -5,6 +5,10 @@ type User = {
     userId: number;
     firstName: string;
     lastName: string;
+    email: string;
+    phone: string;
+    description: string;
+    employeeId: string;
     role: string;
     actionItems: Array<{
         subject: string;
@@ -62,7 +66,11 @@ export const UserProvider = ({ children }) => {
             userId: data['user_id'],
             firstName: data['first_name'],
             lastName: data['last_name'],
+            email: data['email'],
             role: data['role'],
+            description: data['description'],
+            employeeId: data['employee_id'],
+            phone: data['phone'],
             actionItems: data['action_items'],
             profileImage: data['profile_image']
         });
@@ -120,7 +128,11 @@ export const UserProvider = ({ children }) => {
             userId: -1,
             firstName: '',
             lastName: '',
+            email: '',
             role: '',
+            description: '',
+            phone: '',
+            employeeId: '',
             actionItems: [{
                 subject: '',
                 detail: {}

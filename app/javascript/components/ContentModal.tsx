@@ -14,8 +14,8 @@ const ModalStyle = styled.div`
     align-items: center;
     width: 100vw;
     height: 100vh;
-    z-index: 10000;
     background-color: rgba(0,0,0,.5);
+    z-index: 10;
 `;
 
 const ContentStyle = styled.div`

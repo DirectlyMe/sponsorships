@@ -18,7 +18,11 @@ class UsersController < ApplicationController
             user_id: user.id,
             first_name: user.first_name,
             last_name: user.last_name,
+            email: user.email,
             role: user.role,
+            phone: user.phone,
+            description: user.description,
+            employee_id: user.employee_id,
             action_items: user.action_items,
             sponsees: user.sponsees,
             profile_image: profile_image_path
@@ -47,14 +51,11 @@ class UsersController < ApplicationController
         user = User.find_by(id: params.require(:id))
         return not_found if user.nil?
 
-        # filter all updatable parameters that were provided and update them
-        updated_attrs = params.select { |attr| (user.attributes.include? attr) && (!READ_ONLY_ATTRS.include? attr.to_sym) }
-        user.assign_attributes(updated_attrs)
-
         # did they send a new profile image?
-        user.profile_image.attach(params[:profile_image]) if params.key?(:profile_image)
+        user.profile_image.attach(update_params[:profile_image]) if update_params.key?(:profile_image)
 
-        # save all updated values
+        # updated values, don't update the profile_image
+        user.assign_attributes(update_params.reject { |attr| attr == :profile_image })
         user.save!
 
         render json: {
@@ -66,5 +67,9 @@ class UsersController < ApplicationController
 
     def user_params
         params.require(:user).permit(:username, :password, :salt, :encrypted_password, :user_types_id)
+    end
+
+    def update_params
+        params.permit(:first_name, :last_name, :email, :image_url, :phone, :description, :employee_id)
     end
 end
