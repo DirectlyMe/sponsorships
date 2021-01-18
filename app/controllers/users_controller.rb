@@ -2,15 +2,11 @@ class UsersController < ApplicationController
     include UserConcerns
     skip_before_action :authorized, only: [:new, :create, :current_user]
 
-    def index
-        @users = User.all
-    end
-
     def new
         @user = User.new
     end
 
-    # /users/:id
+    # GET /users/:id
     def show
         user = User.find(params[:id])
         profile_image_path = user.profile_image.attached? ? rails_blob_path(user.profile_image) : nil
@@ -29,6 +25,7 @@ class UsersController < ApplicationController
         }
     end
 
+    # POST /users
     def create
         @user = User.new(user_params)
         if @user.save
@@ -39,7 +36,7 @@ class UsersController < ApplicationController
         end
     end
 
-    # /users/current_user
+    # GET /users/current_user
     def current_user
         # return the user_id or a -1 if they are not authenticated
         render json: {
@@ -47,14 +44,14 @@ class UsersController < ApplicationController
         }
     end
 
+    # PUT /users/:user_id
     def update
         user = User.find_by(id: params.require(:id))
         return not_found if user.nil?
 
-
         # updated values, don't update the profile_image
         user.assign_attributes(update_params.reject { |attr| attr == :profile_image })
-        # did they send a new profile image?
+        # did they send a new profile image? If so update it separately
         user.profile_image.attach(update_params[:profile_image]) if update_params.key?(:profile_image)
         user.save!
     end

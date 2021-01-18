@@ -1,15 +1,16 @@
 import React, {useState, useEffect, useContext, useCallback} from "react";
 import { UserContext } from "../contexts/UserContext";
-import { uploadProfileImage } from "../helpers/image_uploads";
 import { useDropzone } from "react-dropzone";
 import styled, { css } from "styled-components";
-import { getCSRF } from "../helpers/fetch_helpers";
+import { updateUserAttributes, uploadProfileImage } from "../helpers/user_requests";
 
 const ProfileLayout = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    min-width: 800px;
+    max-width: 1200px;
 `;
 
 const ImageSection = styled.div`
@@ -64,7 +65,7 @@ const FieldsForm = styled.form`
 
 const UserProfile = () => {
     const { loading, user, getUser } = useContext(UserContext);
-    const [ profileImage, setProfileImage ] = useState<File>();
+    const [ profileImage, setProfileImage ] = useState<File>(null);
     const [ preview, setPreview ] = useState<string>();
     const [ firstName, setFirstName ] = useState<string>('');
     const [ lastName, setLastName ] = useState<string>('');
@@ -76,46 +77,40 @@ const UserProfile = () => {
     const [ success, setSuccess ] = useState<boolean>(false);
 
     useEffect(() => {
-       setup().then(res => 'promise handled');
+       hydrate().then(res => 'component state hydrated');
     }, [loading]);
 
-    async function setup() {
-        if (!loading) {
-            setPreview(user.profileImage);
-            setFirstName(user.firstName);
-            setLastName(user.lastName);
-            setEmail(user.email);
-            setPhone(user.phone);
-            setID(user.employeeId);
-            setDescription(user.description);
-        }
+    async function hydrate() {
+        if (loading) return;
+        setPreview(user.profileImage);
+        setFirstName(user.firstName);
+        setLastName(user.lastName);
+        setEmail(user.email);
+        setPhone(user.phone);
+        setID(user.employeeId);
+        setDescription(user.description);
     }
 
     async function updateUser(e) {
+        // ignore the default form event to prevent a forced refresh
         e.preventDefault();
+        // reset request status state
         setError(null);
+        setSuccess(false);
 
         // update user attributes
-        const result = await fetch(`/users/${user.userId}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            ...getCSRF()
-                        },
-                        body: JSON.stringify({
-                            "first_name": firstName,
-                            "last_name": lastName,
-                            "email": email,
-                            "phone": phone,
-                            "employee_id": id,
-                            "description": description
-                        })
-                });
-
-        // check the http status, if its not in the 200s set error
-        if (Math.floor(result.status / 100) !== 2) {
-            setError('Failed to update user attributes');
+        try {
+            await updateUserAttributes(user.userId, {
+                "first_name": firstName,
+                "last_name": lastName,
+                "email": email,
+                "phone": phone,
+                "employee_id": id,
+                "description": description
+            }, getUser)
+        }
+        catch (error) {
+            setError('Could not update user attributes');
             return;
         }
 
@@ -125,11 +120,12 @@ const UserProfile = () => {
                 await uploadProfileImage(profileImage, user.userId, getUser)
             }
             catch(error) {
-                setError(error != null ? error + ', Could not set image' : 'Could not set image');
+                setError('Could not set image');
                 return;
             }
         }
 
+        // set success to true if we made it to the end without any errors
         setSuccess(true);
     }
 
