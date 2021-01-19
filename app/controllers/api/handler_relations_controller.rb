@@ -25,13 +25,18 @@ class Api::HandlerRelationsController < ApplicationController
         render json: handler_relations, status: 200
     end
 
-    # /api/handler_relations/handler/:id
+    # /api/handler_relations/handler/:id?include_sponsors=true/false
     def handler
-        handler = User.handler.find(params[:id])
+        handler = User.handler.find(params.require(:id))
+        sponsees = if params.key?(:include_sponsors) && params[:include_sponsors] == 'true'
+                       handler.sponsees.map { |sponsee| sponsee.attributes.merge({ sponsors: sponsee.sponsors }) }
+                   else
+                       handler.sponsees
+                   end
 
         render json: {
             handler: handler,
-            sponsees: handler.sponsees
+            sponsees: sponsees
         }, status: 200
     end
 

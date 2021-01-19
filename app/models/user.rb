@@ -1,6 +1,8 @@
 class User < ApplicationRecord
     include UserConcerns
 
+    attr_accessor :sponsored
+
     has_one :user_type
     has_one :organization
     has_many :services

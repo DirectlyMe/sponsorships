@@ -10,6 +10,9 @@ type User = {
     description: string;
     employeeId: string;
     role: string;
+    sponsees?: Array<User>;
+    sponsors?: Array<User>;
+    handlers?: Array<User>;
     actionItems: Array<{
         subject: string;
         detail: {};

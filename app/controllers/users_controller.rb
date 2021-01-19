@@ -20,7 +20,6 @@ class UsersController < ApplicationController
             description: user.description,
             employee_id: user.employee_id,
             action_items: user.action_items,
-            sponsees: user.sponsees,
             profile_image: profile_image_path
         }
     end
