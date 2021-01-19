@@ -124,7 +124,7 @@ ActiveRecord::Schema.define(version: 2021_01_18_054410) do
     t.string "last_name"
     t.bigint "organization_id"
     t.string "creation_status"
-    t.integer "phone"
+    t.bigint "phone"
     t.string "employee_id"
     t.string "description"
     t.index ["organization_id"], name: "index_users_on_organization_id"
