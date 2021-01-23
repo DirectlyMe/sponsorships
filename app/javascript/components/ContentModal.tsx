@@ -1,8 +1,8 @@
 /*
     Use this as a way to flexibly render whatever elements you need in a modal that overlays the UI completely.
  */
-import React from "react";
-import styled, { css } from "styled-components";
+import React, { useEffect } from "react";
+import styled from "styled-components";
 
 const ModalStyle = styled.div`
     position: fixed;
@@ -32,12 +32,26 @@ const ExitButton = styled.button`
 `;
 
 const ContentModal = ({ children, show, setShow }) => {
+    const navbar = document.getElementById('nav-section');
+
+    useEffect(() => {
+        // set the nav to -1 so the modal displays over it
+        if (show)
+            navbar.style.zIndex = '-1';
+    })
+
+    function exit() {
+        // put the nav back into a regular 1 index so it does not encounter user interaction issues
+        navbar.style.zIndex = "1";
+        setShow(false);
+    }
+
     return (
         <>
             {
                 show ? (
                     <ModalStyle>
-                        <ExitButton onClick={() => setShow(false)}>Exit Modal</ExitButton>
+                        <ExitButton onClick={() => exit()}>Exit Modal</ExitButton>
                         <ContentStyle>
                             {children}
                         </ContentStyle>

@@ -8,7 +8,6 @@ const Nav = styled.nav`
     padding: 20px 40px 20px 40px;
     list-style-type: none;
     justify-content: flex-end;
-    z-index: -1;
     
     ul {
         text-decoration: none;
