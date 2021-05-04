@@ -25,11 +25,15 @@ class Api::HandlerRelationsController < ApplicationController
         render json: handler_relations, status: 200
     end
 
-    # /api/handler_relations/handler/:id?include_sponsors=true/false
+    # /api/handler_relations/handler/:id?include_sponsors=true|false
     def handler
         handler = User.handler.find(params.require(:id))
         sponsees = if params.key?(:include_sponsors) && params[:include_sponsors] == 'true'
                        handler.sponsees.map { |sponsee| sponsee.attributes.merge({ sponsors: sponsee.sponsors }) }
+                       # map over user profile image iff it exists
+                       handler.sponsees.map do |user|
+                           user.attributes.merge({ profile_image: user.profile_image.attached? ? rails_blob_path(user.profile_image) : nil })
+                       end
                    else
                        handler.sponsees
                    end

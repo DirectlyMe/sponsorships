@@ -46,3 +46,4 @@ export async function updateUserAttributes(userId: number, userAttrs: Object, ca
 
     if (callback !== null && response) await callback();
 }
+

@@ -1,5 +1,6 @@
 class User < ApplicationRecord
     include UserConcerns
+    include Rails.application.routes.url_helpers
 
     attr_accessor :sponsored
 
