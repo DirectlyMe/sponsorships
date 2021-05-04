@@ -37,7 +37,6 @@ const NavbarSection = styled.div`
     width: 300px;
     height: 70vh;
     border-right: 1px solid;
-    z-index: -1;
     
     @media (min-width: 900px) {
     }
@@ -53,7 +52,7 @@ const Layout = ({ children }) => {
                 <StatusBarSection>
                     <StatusBar />
                 </StatusBarSection>
-                <NavbarSection>
+                <NavbarSection id="nav-section">
                     <Navbar />
                 </NavbarSection>
                 <ContentSection>

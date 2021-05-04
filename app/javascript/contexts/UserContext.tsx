@@ -1,21 +1,6 @@
 // only use for user specific data
 import React, { createContext, useState, useEffect } from "react";
-
-type User = {
-    userId: number;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    description: string;
-    employeeId: string;
-    role: string;
-    actionItems: Array<{
-        subject: string;
-        detail: {};
-    }>;
-    profileImage: string;
-}
+import { User } from "UserTypes";
 
 interface UserContext {
     loading: boolean;

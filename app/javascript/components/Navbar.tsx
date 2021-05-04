@@ -8,7 +8,6 @@ const Nav = styled.nav`
     padding: 20px 40px 20px 40px;
     list-style-type: none;
     justify-content: flex-end;
-    z-index: -1;
     
     ul {
         text-decoration: none;
@@ -35,7 +34,7 @@ const Navbar = () => {
        <Nav>
            <ul>
                <li><Link to="/">Dashboard</Link></li>
-               <li><Link to="/">Clients</Link></li>
+               <li><Link to="/clients">Clients</Link></li>
                <li><Link to="/">Sponsors</Link></li>
            </ul>
        </Nav>

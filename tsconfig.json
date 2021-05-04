@@ -11,11 +11,12 @@
     "target": "es5",
     "jsx": "react"
   },
+  "include": ["**/*.ts"],
   "exclude": [
     "**/*.spec.ts",
     "node_modules",
     "vendor",
     "public"
   ],
-  "compileOnSave": false,
+  "compileOnSave": true,
 }

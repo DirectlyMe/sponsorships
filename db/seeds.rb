@@ -34,6 +34,12 @@ sponsor = User.create! username: 'testa', password_digest: BCrypt::Password.crea
 sponsee = User.create! username: 'Pete', password_digest: BCrypt::Password.create(test_password),
                        email: 'test@tester21231.com', user_types_id: sponsee_type.id, first_name: 'Pete', last_name: 'Fleb',
                        creation_status: CREATION_STATUSES[:created]
+sponsee1 = User.create! username: 'sponsee1', password_digest: BCrypt::Password.create(test_password),
+                       email: 'sponsee@tester212231.com', user_types_id: sponsee_type.id, first_name: 'sponsee', last_name: '1',
+                       creation_status: CREATION_STATUSES[:draft]
+sponsee2 = User.create! username: 'Pete', password_digest: BCrypt::Password.create(test_password),
+                       email: 'test@tester21231.com', user_types_id: sponsee_type.id, first_name: 'Pete', last_name: 'Fleb',
+                       creation_status: CREATION_STATUSES[:created]
 handler = User.create! username: 'DefaultHandler', password_digest: BCrypt::Password.create(test_password),
                        email: 'handler@tester21231.com', user_types_id: handler_type.id, first_name: 'Handy',
                        last_name: 'McHand', organization_id: org.id, creation_status: CREATION_STATUSES[:created]
